@@ -1,16 +1,14 @@
 package cn.cambridge.coss.basic.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommonResult {
+public class CommonResultUtil {
     private static String msgTrue = "请求成功";
     private static String msgFalse = "请求失败";
 
     public static enum MessageCode {
-        ERROR1(100, "错误1"), ERROR2(200, "错误2");
+        NO_SUCH_FILE(100, "找不到对应的文件"), OTHER_ERROR(1000, msgFalse);
         private Integer code;
         private String msg;
         MessageCode(Integer code, String msg) { this.code = code; this.msg = msg; }

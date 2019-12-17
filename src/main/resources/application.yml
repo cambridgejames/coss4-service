@@ -14,5 +14,5 @@ server:
   servlet:
     context-path: /
 
-direction:
+directory:
   root: C:\Users\Administrator\Desktop\public
