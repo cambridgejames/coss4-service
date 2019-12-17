@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: dev
+
+---
+Spring:
+  profiles: dev     # 开发环境配置
+  devtools:
+    livereload:
+      port: 35730
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+direction:
+  root: C:\Users\Administrator\Desktop\public
