@@ -15,8 +15,12 @@ import java.util.Map;
 @Service
 public class CommonService {
 
-    @Autowired
     private DirectoryConfig directoryConfig;
+
+    @Autowired
+    public void setDirectoryConfig(DirectoryConfig directoryConfig) {
+        this.directoryConfig = directoryConfig;
+    }
 
     /**
      * 获取指定目录的目录结构
@@ -27,7 +31,6 @@ public class CommonService {
         if(dirRoot == null || "".equals(dirRoot)) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.NO_SUCH_FILE);
         }
-
         return CommonResultUtil.returnTrue(DirectoryUtil.getDirectory(dirRoot));
     }
 }
