@@ -29,6 +29,6 @@ public class CommonController {
      */
     @GetMapping("directory")
     @ResponseBody
-    public Map<String, Object> getDirectory() { return commonService.getDirectory(); }
+    public Map<String, Object> getDirectory() { return commonService.queryDirectory(); }
 
 }
