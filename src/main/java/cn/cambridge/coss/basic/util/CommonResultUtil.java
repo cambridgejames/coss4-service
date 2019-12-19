@@ -45,6 +45,11 @@ public class CommonResultUtil {
 
         public Integer getCode() { return this.code; }
         public String getMsg() { return this.msg; }
+
+        @Override
+        public String toString() {
+            return this.getMsg();
+        }
     }
 
     /**

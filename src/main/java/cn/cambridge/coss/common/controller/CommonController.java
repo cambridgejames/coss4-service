@@ -1,6 +1,5 @@
 package cn.cambridge.coss.common.controller;
 
-import cn.cambridge.coss.basic.util.CommonResultUtil;
 import cn.cambridge.coss.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,21 +13,15 @@ import java.util.Map;
 @RequestMapping("common")
 public class CommonController {
 
-    @Autowired
     private CommonService commonService;
 
-    @GetMapping("/hello")
-    @ResponseBody
-    public Map<String, Object> hello() {
-        return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.OTHER_ERROR);
+    @Autowired
+    public void setCommonService(CommonService commonService) {
+        this.commonService = commonService;
     }
 
-    /**
-     * 获取目录结构
-     * @return
-     */
-    @GetMapping("directory")
+    @GetMapping("/helloWorld")
     @ResponseBody
-    public Map<String, Object> getDirectory() { return commonService.queryDirectory(); }
+    public Map<String, Object> helloWorld() { return commonService.helloWorld(); }
 
 }

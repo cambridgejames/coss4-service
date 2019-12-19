@@ -2,6 +2,7 @@ package cn.cambridge.coss.web.service;
 
 import cn.cambridge.coss.basic.config.DirectoryConfig;
 import cn.cambridge.coss.basic.util.CommonResultUtil;
+import cn.cambridge.coss.basic.util.DirectoryUtil;
 import cn.cambridge.coss.common.service.CommonService;
 import cn.cambridge.coss.web.vo.ArticleDTO;
 import org.slf4j.Logger;
@@ -27,6 +28,19 @@ public class ArticleService {
 
     @Autowired
     public void setDirectoryConfig(DirectoryConfig directoryConfig) { this.directoryConfig = directoryConfig; }
+
+    /**
+     * 获取指定目录的目录结构
+     * @return 结果
+     */
+    public Map<String, Object> queryDirectory() {
+        String dirRoot = directoryConfig.getRoot();
+        if(dirRoot == null || "".equals(dirRoot)) {
+            logger.warn(dirRoot + ": " + CommonResultUtil.MessageCode.NO_SUCH_FILE);
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.NO_SUCH_FILE);
+        }
+        return CommonResultUtil.returnTrue(DirectoryUtil.getDirectory(dirRoot));
+    }
 
     /**
      * 获取指定文章的内容

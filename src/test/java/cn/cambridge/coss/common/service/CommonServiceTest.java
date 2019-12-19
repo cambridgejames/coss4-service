@@ -16,7 +16,7 @@ public class CommonServiceTest {
     private CommonService commonService;
 
     @Test(timeout = 1000)
-    public void queryDirectory() {
-        Assert.assertNotEquals(CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.NO_SUCH_FILE), commonService.queryDirectory());
+    public void helloWorld() {
+        Assert.assertEquals(CommonResultUtil.returnTrue("Hello World!"), commonService.helloWorld());
     }
 }

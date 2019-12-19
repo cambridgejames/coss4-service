@@ -25,12 +25,19 @@ public class ArticleController {
     private ArticleService articleService;
 
     @Autowired
-    public void setArticleService(ArticleService articleService) {
-        this.articleService = articleService;
-    }
+    public void setArticleService(ArticleService articleService) { this.articleService = articleService; }
+
+    /**
+     * 获取目录结构
+     * @return 目录结构
+     */
+    @RequestMapping("directory")
+    @ResponseBody
+    public Map<String, Object> getDirectory() { return articleService.queryDirectory(); }
 
     /**
      * 获取单个文件信息
+     * @param article 文件信息
      * @return 文件信息
      */
     @RequestMapping("/queryArticle")
