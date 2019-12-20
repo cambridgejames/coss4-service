@@ -18,8 +18,8 @@ public class CommonResultUtil {
     private static MessageConfig messageConfig;
 
     @Autowired
-    private static void setMessageConfig(MessageConfig _messageConfig) {
-        messageConfig = _messageConfig;
+    private void setMessageConfig(MessageConfig messageConfig) {
+        CommonResultUtil.messageConfig = messageConfig;
     }
 
     /**

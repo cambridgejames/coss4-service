@@ -15,7 +15,7 @@ server:
     context-path: /
 
 directory:
-  root: C:\Users\Administrator\Desktop\public
+  root: C:\Users\pjq\Desktop\source
 
 message:
   msgTrue: 操作成功
