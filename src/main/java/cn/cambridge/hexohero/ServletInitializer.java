@@ -1,4 +1,4 @@
-package cn.cambridge.coss;
+package cn.cambridge.hexohero;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

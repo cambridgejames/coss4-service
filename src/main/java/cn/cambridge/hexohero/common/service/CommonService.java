@@ -1,6 +1,6 @@
-package cn.cambridge.coss.common.service;
+package cn.cambridge.hexohero.common.service;
 
-import cn.cambridge.coss.basic.util.CommonResultUtil;
+import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

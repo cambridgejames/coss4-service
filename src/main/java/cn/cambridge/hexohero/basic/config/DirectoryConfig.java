@@ -1,4 +1,4 @@
-package cn.cambridge.coss.basic.config;
+package cn.cambridge.hexohero.basic.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

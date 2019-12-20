@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.cambridge</groupId>
-    <artifactId>coss</artifactId>
-    <version>4.0.1-SNAPSHOT</version>
+    <artifactId>hexoHero</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>coss</name>
+    <name>hexoHero</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

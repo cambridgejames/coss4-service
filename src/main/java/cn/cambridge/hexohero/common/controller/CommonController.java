@@ -1,6 +1,6 @@
-package cn.cambridge.coss.common.controller;
+package cn.cambridge.hexohero.common.controller;
 
-import cn.cambridge.coss.common.service.CommonService;
+import cn.cambridge.hexohero.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

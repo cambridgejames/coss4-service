@@ -1,11 +1,11 @@
-package cn.cambridge.coss.web.service;
+package cn.cambridge.hexohero.web.service;
 
-import cn.cambridge.coss.basic.config.DirectoryConfig;
-import cn.cambridge.coss.basic.util.CommonResultUtil;
-import cn.cambridge.coss.basic.util.DirectoryUtil;
-import cn.cambridge.coss.common.service.CommonService;
-import cn.cambridge.coss.web.vo.ArticleDTO;
-import cn.cambridge.coss.web.vo.ArticleVO;
+import cn.cambridge.hexohero.basic.config.DirectoryConfig;
+import cn.cambridge.hexohero.basic.util.CommonResultUtil;
+import cn.cambridge.hexohero.basic.util.DirectoryUtil;
+import cn.cambridge.hexohero.common.service.CommonService;
+import cn.cambridge.hexohero.web.vo.ArticleDTO;
+import cn.cambridge.hexohero.web.vo.ArticleVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

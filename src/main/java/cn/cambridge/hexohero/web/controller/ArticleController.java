@@ -1,8 +1,8 @@
-package cn.cambridge.coss.web.controller;
+package cn.cambridge.hexohero.web.controller;
 
-import cn.cambridge.coss.basic.util.CommonResultUtil;
-import cn.cambridge.coss.web.service.ArticleService;
-import cn.cambridge.coss.web.vo.ArticleDTO;
+import cn.cambridge.hexohero.basic.util.CommonResultUtil;
+import cn.cambridge.hexohero.web.service.ArticleService;
+import cn.cambridge.hexohero.web.vo.ArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;

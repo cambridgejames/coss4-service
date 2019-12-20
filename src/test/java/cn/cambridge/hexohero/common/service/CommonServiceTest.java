@@ -1,6 +1,6 @@
-package cn.cambridge.coss.common.service;
+package cn.cambridge.hexohero.common.service;
 
-import cn.cambridge.coss.basic.util.CommonResultUtil;
+import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

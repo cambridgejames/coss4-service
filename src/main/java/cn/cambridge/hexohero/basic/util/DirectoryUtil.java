@@ -1,4 +1,4 @@
-package cn.cambridge.coss.basic.util;
+package cn.cambridge.hexohero.basic.util;
 
 import java.io.File;
 import java.util.HashMap;

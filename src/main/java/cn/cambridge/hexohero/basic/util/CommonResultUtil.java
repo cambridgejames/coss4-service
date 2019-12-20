@@ -1,4 +1,4 @@
-package cn.cambridge.coss.basic.util;
+package cn.cambridge.hexohero.basic.util;
 
 import lombok.NonNull;
 
