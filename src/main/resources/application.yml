@@ -16,3 +16,7 @@ server:
 
 directory:
   root: C:\Users\Administrator\Desktop\public
+
+message:
+  msgTrue: 操作成功
+  msgFalse: 操作失败

@@ -1,5 +1,7 @@
 package cn.cambridge.hexohero.basic.util;
 
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.Map;
  * @author PengJQ
  * @date 2019-12-18
  */
+@Component
 public class DirectoryUtil {
 
     /**
