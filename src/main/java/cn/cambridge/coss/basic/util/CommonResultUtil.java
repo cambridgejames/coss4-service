@@ -30,8 +30,9 @@ public class CommonResultUtil {
     public enum MessageCode {
         PARAMETERS_NOT_ENOUGH(2000, "传入的参数不足"),
         NO_SUCH_FILE(3000, "找不到对应的文件"),
-        FILE_READ_ERROR(3100, "文件读取时出错"),
-        FILE_WRITE_ERROR(3100, "文件写入时出错"),
+        FILE_ALREADY_EXIST(3100, "文件已存在"),
+        FILE_READ_ERROR(3200, "文件读取时出错"),
+        FILE_WRITE_ERROR(3300, "文件写入时出错"),
         SERVER_INTERNAL_ERROR(5500, "服务器内部错误"),
         OTHER_ERROR(5900, msgFalse);
 

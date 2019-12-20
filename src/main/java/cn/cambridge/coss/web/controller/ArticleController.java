@@ -6,10 +6,7 @@ import cn.cambridge.coss.web.vo.ArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -31,7 +28,7 @@ public class ArticleController {
      * 获取目录结构
      * @return 目录结构
      */
-    @RequestMapping("directory")
+    @GetMapping("directory")
     @ResponseBody
     public Map<String, Object> getDirectory() { return articleService.queryDirectory(); }
 
@@ -40,7 +37,7 @@ public class ArticleController {
      * @param article 文件信息
      * @return 文件信息
      */
-    @RequestMapping("/queryArticle")
+    @GetMapping("/queryArticle")
     @ResponseBody
     public Map<String, Object> queryArticle(@RequestBody ArticleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticlePath())) {
@@ -54,7 +51,7 @@ public class ArticleController {
      * @param article 文章信息
      * @return 操作结果（成功/失败）
      */
-    @RequestMapping("/editArticle")
+    @PostMapping("/editArticle")
     @ResponseBody
     public Map<String, Object> editArticle(@RequestBody ArticleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticlePath()) || StringUtils.isEmpty(article.getArticleContext())) {
@@ -62,4 +59,23 @@ public class ArticleController {
         }
         return articleService.editArticle(article);
     }
+
+    /**
+     * 新增文章
+     * @param article 文件信息（路径）
+     * @return 指定根目录的全部目录结构
+     */
+    @PostMapping("/addArticle")
+    @ResponseBody
+    public Map<String, Object> addArticle(@RequestBody ArticleDTO article) {
+        if(ObjectUtils.isEmpty(article.getArticlePath())) {
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
+        }
+        if(ObjectUtils.isEmpty(article.getCascaded())) {
+            article.setCascaded(true);  // 新增文章时级联默认为true，即自动新建不存在的路径
+        }
+        return articleService.addArticle(article);
+    }
+
+
 }
