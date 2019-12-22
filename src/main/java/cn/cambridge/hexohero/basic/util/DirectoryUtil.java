@@ -1,8 +1,10 @@
 package cn.cambridge.hexohero.basic.util;
 
+import cn.cambridge.hexohero.web.vo.ArticleVO;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,11 @@ public class DirectoryUtil {
                     resultMap.put(file.getName(), listDirectory(file));
                 }
                 else {
-                    resultMap.put(file.getName(), file.length());
+                    ArticleVO article = new ArticleVO();
+                    article.setArticleFileName(file.getName());
+                    article.setUpdateTime(new Date(file.lastModified()));
+                    article.setArticleSize(file.length());
+                    resultMap.put(file.getName(), article);
                 }
             }
         }
