@@ -41,7 +41,7 @@ public class ArticleRecycleUtil {
      * @throws IOException 文件移动失败
      */
     public static void removeArticle(String[] articlePath) throws IOException {
-        Long articleId = getId();
+        String articleId = recycleConfig.getUUId();
         String fromPath = directoryConfig.getRoot() + separator + String.join(separator, articlePath);
         String articleName = articlePath[articlePath.length - 1];
         String toPath = directoryConfig.getRecycle() + separator + articleName + "@" + articleId + ".recycle";
@@ -53,7 +53,7 @@ public class ArticleRecycleUtil {
         articleVO.setArticleSize(recycleFile.length());
         articleVO.setArticleFileName(articleName);
         articleVO.setUpdateTime(new Date());
-        Map<Long, Object> articleInformation = recycleConfig.getRecycleMap();
+        Map<String, Object> articleInformation = recycleConfig.getRecycleMap();
         articleInformation.put(articleId, articleVO);
         recycleConfig.setRecycleMap(articleInformation);
         recycleConfig.updateConfig();
@@ -65,8 +65,8 @@ public class ArticleRecycleUtil {
      * @param articleId 待还原的文件ID
      * @throws IOException 文件移动失败
      */
-    public static Map<String, Object> restoreArticle(Long articleId) throws IOException {
-        Map<Long, Object> articleInformation = recycleConfig.getRecycleMap();
+    public static Map<String, Object> restoreArticle(String articleId) throws IOException {
+        Map<String, Object> articleInformation = recycleConfig.getRecycleMap();
         ArticleVO article = (ArticleVO) articleInformation.get(articleId);
         if(article == null) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.NO_SUCH_FILE);
@@ -105,19 +105,8 @@ public class ArticleRecycleUtil {
      * 获取回收站的文件列表
      * @return 回收站中的文件列表
      */
-    public static Map<Long, Object> queryRecycleList() {
+    public static Map<String, Object> queryRecycleList() {
         return recycleConfig.getRecycleMap();
-    }
-
-    /**
-     * 获取新的文章ID
-     * 由于不能允许ID重复，故对recycleId的读写都要加锁
-     * @return 新的文章ID
-     */
-    private static synchronized long getId() {
-        long recycleId = recycleConfig.getRecycleId();
-        recycleConfig.setRecycleId(recycleId + 1);
-        return recycleId;
     }
 
     /**
@@ -127,6 +116,7 @@ public class ArticleRecycleUtil {
      * @return 操作结果（成功/失败）
      * @throws IOException 文件或目录移动失败
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private static boolean restoreFileOrDirectory(String fromPath, String toPath) throws IOException {
         File rootDir = new File(fromPath);
         if(!rootDir.isDirectory()) {

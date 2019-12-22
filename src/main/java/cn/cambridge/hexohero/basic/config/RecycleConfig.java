@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.*;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 public class RecycleConfig {
     private Logger logger = LoggerFactory.getLogger(ArticleRecycleUtil.class);
 
-    private Long recycleId;  // 文件ID，防止同名文件相互覆盖
-    private Map<Long, Object> recycleMap;  // ConcurrentHashMap线程安全且锁粒度较小
+    private Map<String, Object> recycleMap;  // ConcurrentHashMap线程安全且锁粒度较小
     private String configFileName = ".recycleConfig";
     private String separator = java.io.File.separator;
 
@@ -30,35 +30,29 @@ public class RecycleConfig {
         try {
             FileInputStream fileInputStream = new FileInputStream(configFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            this.recycleId = objectInputStream.readLong();
-            this.recycleMap = (ConcurrentHashMap<Long, Object>) objectInputStream.readObject();
+            this.recycleMap = (ConcurrentHashMap<String, Object>) objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();
             logger.info("Recycle bin configuration file loaded successfully.");
         } catch (FileNotFoundException e) {
             logger.info("Profile '" + configFileName + "' not found.");
-            this.recycleId = 0L;
             this.recycleMap = new ConcurrentHashMap<>();
         } catch (Exception e) {
             logger.error(e.toString(), e);
-            this.recycleId = 0L;
             this.recycleMap = new ConcurrentHashMap<>();
         }
     }
 
-    public void setRecycleId(Long recycleId) {
-        this.recycleId = recycleId;
-    }
-    public void setRecycleMap(Map<Long, Object> recycleMap) {
+    public void setRecycleMap(Map<String, Object> recycleMap) {
         this.recycleMap = recycleMap;
     }
+    public  Map<String, Object> getRecycleMap() { return this.recycleMap; }
 
-    public Long getRecycleId() {
-        return this.recycleId;
-    }
-    public  Map<Long, Object> getRecycleMap() {
-        return this.recycleMap;
-    }
+    /**
+     * 获取唯一UUID标识
+     * @return 唯一UUID标识
+     */
+    public String getUUId() { return UUID.randomUUID().toString(); }
 
     /**
      * 将回收站配置写入配置文件
@@ -68,7 +62,6 @@ public class RecycleConfig {
         File configFile = new File(directoryConfig.getRecycle() + separator + configFileName);
         FileOutputStream fileOutputStream = new FileOutputStream(configFile);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeLong(recycleId);
         objectOutputStream.writeObject(recycleMap);
         objectOutputStream.close();
         fileOutputStream.close();
