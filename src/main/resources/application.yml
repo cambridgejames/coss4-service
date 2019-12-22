@@ -16,6 +16,7 @@ server:
 
 directory:
   root: C:\Users\pjq\Desktop\source
+  recycle: C:\Users\pjq\Desktop\recycle
 
 message:
   msgTrue: 操作成功

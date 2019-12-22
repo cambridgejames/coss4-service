@@ -1,10 +1,12 @@
 package cn.cambridge.hexohero.web.service;
 
 import cn.cambridge.hexohero.basic.config.DirectoryConfig;
+import cn.cambridge.hexohero.basic.util.ArticleRecycleUtil;
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import cn.cambridge.hexohero.basic.util.DirectoryUtil;
 import cn.cambridge.hexohero.common.service.CommonService;
 import cn.cambridge.hexohero.web.vo.ArticleDTO;
+import cn.cambridge.hexohero.web.vo.ArticleRecycleDTO;
 import cn.cambridge.hexohero.web.vo.ArticleVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -25,10 +28,10 @@ public class ArticleService {
     private static Logger logger = LoggerFactory.getLogger(CommonService.class);
     private static String separator = java.io.File.separator;
 
-    private DirectoryConfig directoryConfig;
+    private static DirectoryConfig directoryConfig;
 
     @Autowired
-    public void setDirectoryConfig(DirectoryConfig directoryConfig) { this.directoryConfig = directoryConfig; }
+    public void setDirectoryConfig(DirectoryConfig directoryConfig) { ArticleService.directoryConfig = directoryConfig; }
 
     /**
      * 获取指定目录的目录结构
@@ -68,7 +71,9 @@ public class ArticleService {
             articleVO.setArticlePath(article.getArticlePath());
             articleVO.setArticleContext(context);
             articleVO.setArticleSize(articleNew.length());
-            return CommonResultUtil.returnTrue(article);
+            articleVO.setArticleFileName(article.getArticlePath()[article.getArticlePath().length - 1]);
+            articleVO.setUpdateTime(new Date(articleNew.lastModified()));
+            return CommonResultUtil.returnTrue(articleVO);
         } catch (IOException ioe) {
             logger.error(ioe.toString(), ioe);
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.FILE_READ_ERROR);
@@ -124,6 +129,67 @@ public class ArticleService {
             if (articleNew.createNewFile()) {
                 logger.info("New file created in path: '" + realPath);
                 return this.queryDirectory();
+            } else {
+                return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.FILE_WRITE_ERROR);
+            }
+        } catch (IOException ioe) {
+            logger.error(ioe.toString(), ioe);
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.FILE_WRITE_ERROR);
+        }
+    }
+
+    /**
+     * 将指定文件移入回收站
+     * @param article 文件信息
+     * @return 文件在回收站中的ID
+     */
+    public Map<String, Object> removeArticle(ArticleDTO article) {
+        String realPath = directoryConfig.getRoot() + separator + String.join(separator, article.getArticlePath());
+        File articleNew = new File(realPath);
+        if(!articleNew.exists()) {
+            // 如果文件不存在则返回找不到文件
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.NO_SUCH_FILE);
+        }
+        try {
+            ArticleRecycleUtil.removeArticle(article.getArticlePath());
+            return this.queryDirectory();
+        } catch (IOException ioe) {
+            logger.error(ioe.toString(), ioe);
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.FILE_WRITE_ERROR);
+        }
+    }
+
+    /**
+     * 获取回收站的文件列表
+     * @return 回收站中的文件列表
+     */
+    public Map<String, Object> queryRecycleList() {
+        return CommonResultUtil.returnTrue(ArticleRecycleUtil.queryRecycleList());
+    }
+
+    /**
+     * 将单个文件从回收站中还原
+     * @param article 文件信息
+     * @return 还原结果（成功/失败）
+     */
+    public Map<String, Object> restoreArticle(ArticleRecycleDTO article) {
+        try {
+            Map<String, Object> result = ArticleRecycleUtil.restoreArticle(article.getArticleId());
+            return (int) result.get("code") == 0 ? this.queryDirectory() : result;
+        } catch (IOException ioe) {
+            logger.error(ioe.toString(), ioe);
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.FILE_WRITE_ERROR);
+        }
+    }
+
+    /**
+     * 清空回收站
+     * @return 操作结果（成功/失败）
+     */
+    public Map<String, Object> clearRecycle() {
+        try {
+            if(ArticleRecycleUtil.clearRecycle()) {
+                return CommonResultUtil.returnTrue();
             } else {
                 return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.FILE_WRITE_ERROR);
             }

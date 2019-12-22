@@ -3,6 +3,7 @@ package cn.cambridge.hexohero.web.controller;
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import cn.cambridge.hexohero.web.service.ArticleService;
 import cn.cambridge.hexohero.web.vo.ArticleDTO;
+import cn.cambridge.hexohero.web.vo.ArticleRecycleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -28,9 +29,9 @@ public class ArticleController {
      * 获取目录结构
      * @return 目录结构
      */
-    @GetMapping("directory")
+    @GetMapping("queryDirectory")
     @ResponseBody
-    public Map<String, Object> getDirectory() { return articleService.queryDirectory(); }
+    public Map<String, Object> queryDirectory() { return articleService.queryDirectory(); }
 
     /**
      * 获取单个文件信息
@@ -42,6 +43,12 @@ public class ArticleController {
     public Map<String, Object> queryArticle(@RequestBody ArticleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticlePath())) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
+        }
+        // 接下来校验传入的文件后缀名是否为"md"
+        String[] articlePath = article.getArticlePath();
+        String articleName = articlePath[articlePath.length - 1];
+        if(!"md".equals(articleName.substring(articleName.lastIndexOf(".") + 1))) {
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_TYPE_ILLEGAL);
         }
         return articleService.queryArticle(article);
     }
@@ -71,11 +78,60 @@ public class ArticleController {
         if(ObjectUtils.isEmpty(article.getArticlePath())) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
         }
+        // 接下来校验传入的文件后缀名是否为"md"
+        String[] articlePath = article.getArticlePath();
+        String articleName = articlePath[articlePath.length - 1];
+        if(!"md".equals(articleName.substring(articleName.lastIndexOf(".") + 1))) {
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_TYPE_ILLEGAL);
+        }
         if(ObjectUtils.isEmpty(article.getCascaded())) {
             article.setCascaded(true);  // 新增文章时级联默认为true，即自动新建不存在的路径
         }
         return articleService.addArticle(article);
     }
 
+    /**
+     * 将指定文件移入回收站
+     * @param article 文件信息
+     * @return 文件在回收站中的ID
+     */
+    @DeleteMapping("/removeArticle")
+    @ResponseBody
+    public Map<String, Object> removeArticle(@RequestBody ArticleDTO article) {
+        if(ObjectUtils.isEmpty(article.getArticlePath())) {
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
+        }
+        return articleService.removeArticle(article);
+    }
+
+    /**
+     * 获取回收站的文件列表
+     * @return 回收站中的文件列表
+     */
+    @GetMapping("/queryRecycleList")
+    @ResponseBody
+    public Map<String, Object> queryRecycleList() { return articleService.queryRecycleList(); }
+
+    /**
+     * 将单个文件从回收站中还原
+     * @param article 文件信息
+     * @return 还原结果（成功/失败）
+     */
+    @PostMapping("/restoreArticle")
+    @ResponseBody
+    public Map<String, Object> restoreArticle(@RequestBody ArticleRecycleDTO article) {
+        if(ObjectUtils.isEmpty(article.getArticleId())) {
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
+        }
+        return articleService.restoreArticle(article);
+    }
+
+    /**
+     * 清空回收站
+     * @return 操作结果（成功/失败）
+     */
+    @DeleteMapping("/clearRecycle")
+    @ResponseBody
+    public Map<String, Object> clearRecycle() { return articleService.clearRecycle(); }
 
 }
