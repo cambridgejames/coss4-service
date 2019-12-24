@@ -21,3 +21,7 @@ directory:
 message:
   msgTrue: 操作成功
   msgFalse: 操作失败
+
+user:
+  username: admin
+  password: admin
