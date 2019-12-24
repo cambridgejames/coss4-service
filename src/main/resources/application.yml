@@ -15,8 +15,9 @@ server:
     context-path: /
 
 directory:
-  root: C:\Users\pjq\Desktop\source
-  recycle: C:\Users\pjq\Desktop\recycle
+  root: C:\Users\Administrator\Desktop\public
+  recycle: C:\Users\Administrator\Desktop\recycle
+  temp: C:\Users\Administrator\Desktop\temp
 
 message:
   msgTrue: 操作成功
