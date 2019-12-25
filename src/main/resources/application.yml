@@ -1,24 +1,3 @@
 spring:
   profiles:
     active: dev
-
----
-Spring:
-  profiles: dev     # 开发环境配置
-  devtools:
-    livereload:
-      port: 35730
-
-server:
-  port: 8080
-  servlet:
-    context-path: /
-
-directory:
-  root: C:\Users\Administrator\Desktop\public
-  recycle: C:\Users\Administrator\Desktop\recycle
-  temp: C:\Users\Administrator\Desktop\temp
-
-message:
-  msgTrue: 操作成功
-  msgFalse: 操作失败

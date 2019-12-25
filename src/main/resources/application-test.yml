@@ -1,0 +1,19 @@
+Spring:
+  profiles: test     # 测试环境配置
+  devtools:
+    livereload:
+      port: 35730
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+directory:
+  root:
+  recycle:
+  draft:
+
+message:
+  msgTrue: 操作成功
+  msgFalse: 操作失败
