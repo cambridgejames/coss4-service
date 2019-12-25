@@ -28,18 +28,19 @@ public class LoginService {
      * @return 登录状态（成功/失败）
      */
     public Map<String, Object> login(UserDTO user) {
-        if(!userConfig.getUsername().equals(user.getUsername()) || !userConfig.getPassword().equals(user.getPassword())) {
-            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.USERNAME_OR_PASSWORD_NOT_TRUE);
-        }
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         Subject subject = SecurityUtils.getSubject();
         subject.getSession().setTimeout(1440000L);  // 设置session过期时间为4h
-        subject.login(token);
+        try {
+            subject.login(token);
+        } catch (Exception e) {
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.USERNAME_OR_PASSWORD_NOT_TRUE);
+        }
         if (subject.isAuthenticated()) {
             logger.info("User '" + user.getUsername() + "' successfully logged in.");
             return CommonResultUtil.returnTrue("登陆成功");
         }else{
-            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.USERNAME_OR_PASSWORD_NOT_TRUE);
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.LOGIN_FAILED);
         }
     }
 
