@@ -35,7 +35,7 @@ public class RecycleConfig {
             fileInputStream.close();
             logger.info("Recycle bin configuration file loaded successfully.");
         } catch (FileNotFoundException e) {
-            logger.info("Profile '" + configFileName + "' not found.");
+            logger.warn("Profile '" + configFile.getAbsolutePath() + "' not found.");
             this.recycleMap = new ConcurrentHashMap<>();
         } catch (Exception e) {
             logger.error(e.toString(), e);
