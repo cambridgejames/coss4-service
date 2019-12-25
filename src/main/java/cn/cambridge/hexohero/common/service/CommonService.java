@@ -15,8 +15,7 @@ import java.util.Map;
 public class CommonService {
     private Logger logger = LoggerFactory.getLogger(CommonService.class);
 
-    public Map<String, Object> helloWorld() {
-        logger.info("Hello World!");
-        return CommonResultUtil.returnTrue("Hello World!");
+    public Map<String, Object> helloWorld(String username) {
+        return CommonResultUtil.returnTrue("Hello World, " + username + "!");
     }
 }
