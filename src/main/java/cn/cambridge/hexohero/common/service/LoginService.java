@@ -2,7 +2,7 @@ package cn.cambridge.hexohero.common.service;
 
 import cn.cambridge.hexohero.basic.config.UserConfig;
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
-import cn.cambridge.hexohero.common.vo.User;
+import cn.cambridge.hexohero.common.vo.UserDTO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -27,7 +27,7 @@ public class LoginService {
      * @param user 用户名和密码信息
      * @return 登录状态（成功/失败）
      */
-    public Map<String, Object> login(User user) {
+    public Map<String, Object> login(UserDTO user) {
         if(!userConfig.getUsername().equals(user.getUsername()) || !userConfig.getPassword().equals(user.getPassword())) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.USERNAME_OR_PASSWORD_NOT_TRUE);
         }

@@ -2,7 +2,7 @@ package cn.cambridge.hexohero.common.controller;
 
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import cn.cambridge.hexohero.common.service.LoginService;
-import cn.cambridge.hexohero.common.vo.User;
+import cn.cambridge.hexohero.common.vo.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public Map<String, Object> login(@RequestBody User user) {
+    public Map<String, Object> login(@RequestBody UserDTO user) {
         if(StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty((user.getPassword()))) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
         }

@@ -3,7 +3,7 @@ package cn.cambridge.hexohero.common.vo;
 import lombok.Data;
 
 @Data
-public class User {
+public class UserDTO {
     private String username;
     private String password;
 }
