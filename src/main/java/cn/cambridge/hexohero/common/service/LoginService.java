@@ -1,6 +1,5 @@
 package cn.cambridge.hexohero.common.service;
 
-import cn.cambridge.hexohero.basic.config.UserConfig;
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import cn.cambridge.hexohero.common.vo.UserDTO;
 import org.apache.shiro.SecurityUtils;
@@ -8,7 +7,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -16,11 +14,6 @@ import java.util.Map;
 @Service
 public class LoginService {
     private Logger logger = LoggerFactory.getLogger(LoginService.class);
-
-    private UserConfig userConfig;
-
-    @Autowired
-    public void setUserConfig(UserConfig userConfig) { this.userConfig = userConfig; }
 
     /**
      * 用户登录
@@ -30,7 +23,6 @@ public class LoginService {
     public Map<String, Object> login(UserDTO user) {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         Subject subject = SecurityUtils.getSubject();
-        subject.getSession().setTimeout(1440000L);  // 设置session过期时间为4h
         try {
             subject.login(token);
         } catch (Exception e) {
@@ -39,7 +31,7 @@ public class LoginService {
         if (subject.isAuthenticated()) {
             logger.info("User '" + user.getUsername() + "' successfully logged in.");
             return CommonResultUtil.returnTrue("登陆成功");
-        }else{
+        } else {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.LOGIN_FAILED);
         }
     }

@@ -1,5 +1,6 @@
 package cn.cambridge.hexohero.common.controller;
 
+import cn.cambridge.hexohero.basic.bean.User;
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import cn.cambridge.hexohero.common.service.CommonService;
 import cn.cambridge.hexohero.common.vo.UserDTO;
@@ -26,11 +27,11 @@ public class CommonController {
     @GetMapping("/helloWorld")
     @ResponseBody
     public Map<String, Object> helloWorld() {
-        UserDTO user = (UserDTO) SecurityUtils.getSubject().getPrincipal();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         if(user == null) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.TOKEN_NOT_FOUND);
         }
-        return commonService.helloWorld(user.getUsername());
+        return commonService.helloWorld(user.getNickname());
     }
 
 }

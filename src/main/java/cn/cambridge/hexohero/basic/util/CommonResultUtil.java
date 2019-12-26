@@ -40,6 +40,7 @@ public class CommonResultUtil {
         TOKEN_NOT_FOUND(1100, "用户未登录"),
         TOKEN_TIMED_OUT(1200, "用户登录超时"),
         LOGIN_FAILED(1300, "用户登录失败"),
+        PERMISSION_DENIED(1400, "权限不足"),
         PARAMETERS_NOT_ENOUGH(2000, "传入的参数不足"),
         PARAMETERS_TYPE_ILLEGAL(2100, "传入的参数类型不合法"),
         NO_SUCH_FILE(3000, "找不到对应的文件"),

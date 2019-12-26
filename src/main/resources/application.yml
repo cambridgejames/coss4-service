@@ -2,6 +2,32 @@ spring:
   profiles:
     active: dev
 
-user:
-  username: admin
-  password: admin
+limit:
+  userMap:
+    admin:
+      nickname: 管理员用户
+      password: admin
+      roles:
+        - '1'
+    user1:
+      nickname: 普通用户1
+      password: user1
+      roles:
+        - '2'
+
+  roleMap:
+    '1':
+      roleName: admin
+      permissions:
+        - '1'
+        - '2'
+    '2':
+      roleName: user
+      permissions:
+        - '1'
+
+  permissionMap:
+    '1':
+      permissionName: helloWorld
+    '2':
+      permissionName: articleGet
