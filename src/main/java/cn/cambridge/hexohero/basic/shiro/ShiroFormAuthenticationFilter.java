@@ -7,7 +7,6 @@ import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,7 +20,6 @@ public class ShiroFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
-        HttpServletRequest req = (HttpServletRequest)request;
         HttpServletResponse resp = (HttpServletResponse) response;
         resp.setContentType("application/json; charset=utf-8");
         resp.setCharacterEncoding("UTF-8");
@@ -30,8 +28,10 @@ public class ShiroFormAuthenticationFilter extends FormAuthenticationFilter {
         String resultJson;
         Subject subject = getSubject(request, response);
         if(subject.getPrincipal() == null) {
+            // 用户未登录
             resultJson = mapper.writeValueAsString(CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.TOKEN_NOT_FOUND));
         } else {
+            // 用户权限不足
             resultJson = mapper.writeValueAsString(CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PERMISSION_DENIED));
         }
         out.println(resultJson);

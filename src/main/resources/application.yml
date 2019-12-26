@@ -1,30 +1,38 @@
 spring:
   profiles:
     active: dev
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
 
 limit:
   userMap:
+    testUser:
+      nickname: 权限测试用户
+      password: testUser
+      roles:
+        - '0'
     admin:
       nickname: 管理员用户
       password: admin
       roles:
         - '1'
-    user1:
-      nickname: 普通用户1
-      password: user1
-      roles:
-        - '2'
 
   roleMap:
+    '0':
+      roleName: testUser
+      permissions:
     '1':
       roleName: admin
       permissions:
         - '1'
         - '2'
-    '2':
-      roleName: user
-      permissions:
-        - '1'
 
   permissionMap:
     '1':

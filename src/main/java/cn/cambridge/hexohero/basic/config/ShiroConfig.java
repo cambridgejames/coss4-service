@@ -47,11 +47,10 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();  // 获取filters
-        filters.put("authc", new ShiroFormAuthenticationFilter());  // 将自定义 的FormAuthenticationFilter注入shiroFilter中
+        filters.put("authc", new ShiroFormAuthenticationFilter());
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/login/login", "anon");
-        filterMap.put("/login/logout", "anon");
         filterMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;

@@ -32,8 +32,7 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String userId = (String) principalCollection.getPrimaryPrincipal();
-        User user = limitConfig.selectUserById(userId);
+        User user = (User) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 获取用户的角色列表
         for(Role role : limitConfig.selectRolesByIds(user.getRoles())) {
