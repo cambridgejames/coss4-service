@@ -11,4 +11,5 @@ import lombok.Data;
 public class Permission {
     private String id;
     private String permissionName;
+    private String description;
 }

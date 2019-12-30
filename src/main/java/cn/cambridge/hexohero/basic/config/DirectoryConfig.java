@@ -68,7 +68,7 @@ public class DirectoryConfig {
             if(!(!dir.exists() && !dir.mkdirs())) {
                 this.draft += extPath;
             }
-            logger.info("The configuration item 'directory.temp' has been initialized to '" + this.draft + "' by default.");
+            logger.info("The configuration item 'directory.draft' has been initialized to '" + this.draft + "' by default.");
         } else {
             this.draft = preprocess(draft);
         }

@@ -1,6 +1,7 @@
 package cn.cambridge.hexohero.web.controller;
 
 import cn.cambridge.hexohero.web.service.DraftService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class DraftController {
      * @return 草稿箱文件列表
      */
     @GetMapping("/queryDraftList")
+    @RequiresPermissions(value = "articleEdit")
     @ResponseBody
     public Map<String, Object> queryDraftList() { return draftService.queryDraftList(); }
 }

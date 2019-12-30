@@ -1,7 +1,7 @@
 package cn.cambridge.hexohero.common.controller;
 
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
-import cn.cambridge.hexohero.common.service.LoginService;
+import cn.cambridge.hexohero.common.service.LimitService;
 import cn.cambridge.hexohero.common.vo.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/limit")
+public class LimitController {
 
-    private LoginService loginService;
+    private LimitService limitService;
 
     @Autowired
-    public void setLoginService(LoginService loginService) { this.loginService = loginService; }
+    public void setLimitService(LimitService limitService) { this.limitService = limitService; }
 
     /**
      * 用户登录
@@ -29,7 +29,7 @@ public class LoginController {
         if(StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty((user.getPassword()))) {
             return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
         }
-        return loginService.login(user);
+        return limitService.login(user);
     }
 
     /**
@@ -38,6 +38,20 @@ public class LoginController {
      */
     @PostMapping("/logout")
     @ResponseBody
-    public Map<String, Object> logout() { return loginService.logout(); }
+    public Map<String, Object> logout() { return limitService.logout(); }
+
+    /**
+     * 切换角色
+     * @param user 要切换乘的角色ID
+     * @return 切换结果（成功/失败）
+     */
+    @PostMapping("/runAs")
+    @ResponseBody
+    public Map<String, Object> runAs(@RequestBody UserDTO user) {
+        if(StringUtils.isEmpty(user.getRoleId())) {
+            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.PARAMETERS_NOT_ENOUGH);
+        }
+        return limitService.runAs(user);
+    }
 
 }

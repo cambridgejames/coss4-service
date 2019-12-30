@@ -3,7 +3,6 @@ package cn.cambridge.hexohero.common.controller;
 import cn.cambridge.hexohero.basic.bean.User;
 import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import cn.cambridge.hexohero.common.service.CommonService;
-import cn.cambridge.hexohero.common.vo.UserDTO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,8 @@ public class CommonController {
     }
 
     @GetMapping("/helloWorld")
-    @RequiresPermissions(value = "helloWorld")
+    @RequiresPermissions(value = "hello")
     @ResponseBody
-    public Map<String, Object> helloWorld() {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        if(user == null) {
-            return CommonResultUtil.returnFalse(CommonResultUtil.MessageCode.TOKEN_NOT_FOUND);
-        }
-        return commonService.helloWorld(user.getNickname());
-    }
+    public Map<String, Object> helloWorld() { return commonService.helloWorld(); }
 
 }

@@ -50,7 +50,7 @@ public class ShiroConfig {
         filters.put("authc", new ShiroFormAuthenticationFilter());
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/login/login", "anon");
+        filterMap.put("/limit/login", "anon");
         filterMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;

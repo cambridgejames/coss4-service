@@ -13,29 +13,71 @@ server:
 
 limit:
   userMap:
-    testUser:
-      nickname: 权限测试用户
-      password: testUser
-      roles:
-        - '0'
-    admin:
+    root:
       nickname: 管理员用户
-      password: admin
+      password: root
       roles:
-        - '1'
-
-  roleMap:
-    '0':
-      roleName: testUser
-      permissions:
-    '1':
-      roleName: admin
-      permissions:
         - '1'
         - '2'
+        - '3'
+        - '4'
+
+  roleMap:
+    '1':
+      roleName: root
+      description: 超级管理员用户
+      permissions:
+        - '001'
+        - '101'
+        - '201'
+        - '202'
+        - '203'
+        - '301'
+        - '302'
+    '2':
+      roleName: administrator
+      description: 普通管理员用户
+      permissions:
+        - '101'
+        - '201'
+        - '202'
+        - '203'
+        - '301'
+        - '302'
+    '3':
+      roleName: author
+      description: 文章作者
+      permissions:
+        - '101'
+        - '201'
+        - '202'
+        - '301'
+    '4':
+      roleName: tourist
+      description: 游客
+      permissions:
+        - '101'
+        - '201'
 
   permissionMap:
-    '1':
-      permissionName: helloWorld
-    '2':
+    '001':
+      permissionName: userCrud
+      description: 编辑普通用户列表及角色授权
+    '101':
+      permissionName: hello
+      description: 获取欢迎语
+    '201':
       permissionName: articleGet
+      description: 读取文章信息
+    '202':
+      permissionName: articleEdit
+      description: 编辑文章和增删草稿
+    '203':
+      permissionName: articleCrud
+      description: 增删文章和回收站操作
+    '301':
+      permissionName: webView
+      description: 网站预览
+    '302':
+      permissionName: webPublic
+      description: 网站发布

@@ -4,6 +4,7 @@ import cn.cambridge.hexohero.basic.util.CommonResultUtil;
 import cn.cambridge.hexohero.web.service.ArticleService;
 import cn.cambridge.hexohero.web.vo.ArticleDTO;
 import cn.cambridge.hexohero.web.vo.ArticleRecycleDTO;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -30,6 +31,7 @@ public class ArticleController {
      * @return 目录结构
      */
     @GetMapping("queryDirectory")
+    @RequiresPermissions(value = "articleGet")
     @ResponseBody
     public Map<String, Object> queryDirectory() { return articleService.queryDirectory(); }
 
@@ -39,6 +41,7 @@ public class ArticleController {
      * @return 文件信息
      */
     @GetMapping("/queryArticle")
+    @RequiresPermissions(value = "articleGet")
     @ResponseBody
     public Map<String, Object> queryArticle(@RequestBody ArticleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticlePath())) {
@@ -59,6 +62,7 @@ public class ArticleController {
      * @return 操作结果（成功/失败）
      */
     @PostMapping("/editArticle")
+    @RequiresPermissions(value = "articleEdit")
     @ResponseBody
     public Map<String, Object> editArticle(@RequestBody ArticleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticlePath()) || StringUtils.isEmpty(article.getArticleContext())) {
@@ -73,6 +77,7 @@ public class ArticleController {
      * @return 指定根目录的全部目录结构
      */
     @PostMapping("/addArticle")
+    @RequiresPermissions(value = "articleCrud")
     @ResponseBody
     public Map<String, Object> addArticle(@RequestBody ArticleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticlePath())) {
@@ -96,6 +101,7 @@ public class ArticleController {
      * @return 文件在回收站中的ID
      */
     @DeleteMapping("/removeArticle")
+    @RequiresPermissions(value = "articleCrud")
     @ResponseBody
     public Map<String, Object> removeArticle(@RequestBody ArticleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticlePath())) {
@@ -109,6 +115,7 @@ public class ArticleController {
      * @return 回收站中的文件列表
      */
     @GetMapping("/queryRecycleList")
+    @RequiresPermissions(value = "articleCrud")
     @ResponseBody
     public Map<String, Object> queryRecycleList() { return articleService.queryRecycleList(); }
 
@@ -118,6 +125,7 @@ public class ArticleController {
      * @return 还原结果（成功/失败）
      */
     @PostMapping("/restoreArticle")
+    @RequiresPermissions(value = "articleCrud")
     @ResponseBody
     public Map<String, Object> restoreArticle(@RequestBody ArticleRecycleDTO article) {
         if(ObjectUtils.isEmpty(article.getArticleId())) {
@@ -131,6 +139,7 @@ public class ArticleController {
      * @return 操作结果（成功/失败）
      */
     @DeleteMapping("/clearRecycle")
+    @RequiresPermissions(value = "articleCrud")
     @ResponseBody
     public Map<String, Object> clearRecycle() { return articleService.clearRecycle(); }
 

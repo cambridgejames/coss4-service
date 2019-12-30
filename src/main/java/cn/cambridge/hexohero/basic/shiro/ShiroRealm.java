@@ -4,11 +4,13 @@ import cn.cambridge.hexohero.basic.bean.Permission;
 import cn.cambridge.hexohero.basic.bean.Role;
 import cn.cambridge.hexohero.basic.bean.User;
 import cn.cambridge.hexohero.basic.config.LimitConfig;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,13 +36,21 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         User user = (User) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        // 获取用户的角色列表
-        for(Role role : limitConfig.selectRolesByIds(user.getRoles())) {
-            simpleAuthorizationInfo.addRole(role.getRoleName());    // 为用户添加角色
-            // 获取角色的权限列表
-            for (Permission permission : limitConfig.selectPermissionsByIds(role.getPermissions())) {
-                simpleAuthorizationInfo.addStringPermission(permission.getPermissionName());    // 为用户添加权限
-            }
+        Subject subject = SecurityUtils.getSubject();
+        String roleId = (String) subject.getSession().getAttribute("roleId");
+        Role role;
+        if(roleId == null || limitConfig.selectRoleById(roleId) == null) {
+            // 默认使用该用户所拥有的最高级角色进行登录
+            String defaultRoleId = user.getRoles().get(0);
+            role = limitConfig.selectRoleById(defaultRoleId);
+            subject.getSession().setAttribute("roleId", defaultRoleId);
+        } else {
+            role = limitConfig.selectRoleById(roleId);
+        }
+        simpleAuthorizationInfo.addRole(role.getRoleName());    // 为用户添加角色
+        // 获取角色的权限列表
+        for (Permission permission : limitConfig.selectPermissionsByIds(role.getPermissions())) {
+            simpleAuthorizationInfo.addStringPermission(permission.getPermissionName());    // 为用户添加权限
         }
         return simpleAuthorizationInfo;
     }

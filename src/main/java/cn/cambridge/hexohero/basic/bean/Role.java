@@ -13,5 +13,9 @@ import java.util.List;
 public class Role {
     private String id;
     private String roleName;
+    private String description;
     private List<String> permissions; // 角色对应的权限ID集合
+
+    @Override
+    public String toString() { return this.description; }
 }

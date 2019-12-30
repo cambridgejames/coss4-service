@@ -17,6 +17,6 @@ public class CommonServiceTest {
 
     @Test(timeout = 1000)
     public void helloWorld() {
-        Assert.assertEquals(CommonResultUtil.returnTrue("Hello World, cambridge james!"), commonService.helloWorld("cambridge james"));
+        Assert.assertEquals("0", commonService.helloWorld().get("code"));
     }
 }
